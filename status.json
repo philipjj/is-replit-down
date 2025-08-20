@@ -1,7 +1,6 @@
 {
-  "isUp": null,
-  "status": null,
-  "responseTime": null,
-  "timestamp": "2025-04-05T00:00:00.000Z",
-  "error": "Initial state — will be updated by GitHub Actions."
+  "isUp": true,
+  "status": 200,
+  "responseTime": 1200,
+  "timestamp": "2025-08-20T08:59:18.534Z"
 }
