@@ -1,14 +1,42 @@
-// checker.js - MINIMAL TEST: Just write a timestamp and exit
-const fs = require('fs');
+// checker.js - Live Replit status checker
+async function checkService() {
+  const url = 'https://replit.com';
+  const startTime = Date.now();
 
-const testData = {
-  message: "Test write from GitHub Actions",
-  timestamp: new Date().toISOString(),
-  step: "writing file"
-};
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'IsReplitDownChecker/1.0 (https://is-replit-down.vercel.app)'
+      }
+    });
 
-fs.writeFileSync('status.json', JSON.stringify(testData, null, 2));
-console.log('✅ Test file written:', testData);
+    const status = response.status;
+    const responseTime = Date.now() - startTime;
 
-// Force exit
-process.exit(0);
+    const statusData = {
+      isUp: status >= 200 && status < 300,
+      status,
+      responseTime,
+      timestamp: new Date().toISOString()
+    };
+
+    const fs = require('fs');
+    fs.writeFileSync('status.json', JSON.stringify(statusData, null, 2));
+    console.log('✅ Status updated:', statusData);
+  } catch (error) {
+    const errorData = {
+      isUp: false,
+      error: error.message.substring(0, 100), // Keep it short
+      timestamp: new Date().toISOString()
+    };
+    require('fs').writeFileSync('status.json', JSON.stringify(errorData, null, 2));
+    console.log('❌ Service down or error:', errorData);
+  }
+
+  // 🔥 Critical: Exit cleanly so GitHub Actions doesn't hang
+  process.exit(0);
+}
+
+// Run the check
+checkService();

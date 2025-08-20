@@ -1,11 +1,12 @@
 {
   "name": "is-replit-down",
   "version": "1.0.0",
+  "description": "Live status checker for Replit",
   "main": "checker.js",
   "scripts": {
     "check": "node checker.js"
   },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
+  "engines": {
+    "node": "18.x"
   }
 }
