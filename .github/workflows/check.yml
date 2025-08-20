@@ -2,7 +2,7 @@ name: Check Replit Status
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # Every 5 minutes
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -19,18 +19,13 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Node.js (no deps needed)
-        run: npm install
-
-      - name: Run status check
-        run: npm run check
+      - name: Run minimal check (no network)
+        run: node checker.js
 
       - name: Commit and push if status.json changed
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          
-          # Check if status.json changed
           if git diff --quiet status.json; then
             echo "No changes to status.json"
           else
