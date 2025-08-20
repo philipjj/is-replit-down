@@ -12,15 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          push-branch: main
+          token: ${{ secrets.REPO_PAT }}
+          push-branch: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Run minimal check (no network)
+      - name: Run status check
         run: node checker.js
 
       - name: Commit and push if status.json changed
