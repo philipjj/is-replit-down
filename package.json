@@ -1,0 +1,11 @@
+{
+  "name": "is-replit-down",
+  "version": "1.0.0",
+  "main": "checker.js",
+  "scripts": {
+    "check": "node checker.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
