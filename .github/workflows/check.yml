@@ -9,22 +9,32 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install Node.js (no deps needed)
         run: npm install
 
       - name: Run status check
         run: npm run check
 
-      - name: Commit and push if changed
+      - name: Commit and push if status.json changed
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add status.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m ".updateDynamic status [skip ci]" && git push)
+          
+          # Check if status.json changed
+          if git diff --quiet status.json; then
+            echo "No changes to status.json"
+          else
+            git add status.json
+            git commit -m ".updateDynamic status [skip ci]" || exit 0
+            git push
+          fi
