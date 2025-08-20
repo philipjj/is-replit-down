@@ -1,13 +1,13 @@
 // checker.js - Live Replit status checker
 async function checkService() {
-  const url = 'https://replit.com';
+  const url = 'https://replit.com'; // ✅ No spaces
   const startTime = Date.now();
 
   try {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'User-Agent': 'IsReplitDownChecker/1.0 (https://is-replit-down.vercel.app)'
+        'User-Agent': 'IsReplitDownChecker/1.0 (https://is-replit-down.vercel.app)' // ✅ No spaces
       }
     });
 
@@ -27,16 +27,14 @@ async function checkService() {
   } catch (error) {
     const errorData = {
       isUp: false,
-      error: error.message.substring(0, 100), // Keep it short
+      error: error.message.substring(0, 100),
       timestamp: new Date().toISOString()
     };
     require('fs').writeFileSync('status.json', JSON.stringify(errorData, null, 2));
     console.log('❌ Service down or error:', errorData);
   }
 
-  // 🔥 Critical: Exit cleanly so GitHub Actions doesn't hang
   process.exit(0);
 }
 
-// Run the check
 checkService();
