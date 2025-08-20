@@ -1,6 +1,5 @@
 {
-  "isUp": true,
-  "status": 200,
-  "responseTime": 1200,
-  "timestamp": "2025-08-20T08:59:18.534Z"
+  "message": "Test write from GitHub Actions",
+  "timestamp": "2025-08-20T09:58:40.716Z",
+  "step": "writing file"
 }
