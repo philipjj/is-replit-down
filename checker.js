@@ -1,4 +1,4 @@
-// checker.js - Uses native fetch (Node.js 18+) - No external deps needed
+// checker.js - With forced exit to prevent hanging
 async function checkService() {
   const url = 'https://replit.com';
   const startTime = Date.now();
@@ -7,7 +7,7 @@ async function checkService() {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'User-Agent': 'IsReplitDownChecker/1.0 (https://is-replit-down.vercel.app)'
+        'User-Agent': 'IsReplitDownChecker/1.0'
       }
     });
 
@@ -21,7 +21,6 @@ async function checkService() {
       timestamp: new Date().toISOString()
     };
 
-    // Write to status.json
     const fs = require('fs');
     fs.writeFileSync('status.json', JSON.stringify(statusData, null, 2));
     console.log('✅ Status updated:', statusData);
@@ -34,6 +33,9 @@ async function checkService() {
     require('fs').writeFileSync('status.json', JSON.stringify(errorData, null, 2));
     console.log('❌ Service down or error:', errorData);
   }
+
+  // 🔥 CRITICAL: Force exit so GitHub Actions doesn't hang
+  process.exit(0);
 }
 
 checkService();
